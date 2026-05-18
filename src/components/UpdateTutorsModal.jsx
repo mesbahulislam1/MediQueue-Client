@@ -2,8 +2,27 @@
 
 import { Envelope } from "@gravity-ui/icons";
 import { Button, Input, Label, Modal, Surface, TextField } from "@heroui/react";
+import { useRouter } from "next/navigation";
 
 export function UpdateTutorsModal({tutor}) {
+  const router = useRouter()
+  const updateHandel = async(e)=>{
+
+    const formData = new FormData(e.currentTarget)
+    const updateData = Object.fromEntries(formData.entries());
+    const res = await fetch(`http://localhost:8000/tutors/${tutor._id}`,{
+      method: 'PATCH',
+      headers:{
+        'content-type':'application/json',
+      },
+      body: JSON.stringify(updateData)
+    })
+
+    const data = await res.json()
+    if (data) {
+      router.push('/my-tutors')
+    }
+  }
   return (
     <Modal>
       <Button className="px-3 py-1 text-sm bg-blue-500 text-white rounded hover:bg-blue-600">
@@ -20,7 +39,7 @@ export function UpdateTutorsModal({tutor}) {
             </Modal.Header>
             <Modal.Body className="p-3">
               <Surface variant="default">
-                <form className="space-y-5">
+                <form onSubmit={updateHandel} className="space-y-5">
 
   {/* Tutor Name */}
   <div>
@@ -154,7 +173,7 @@ export function UpdateTutorsModal({tutor}) {
     <Button slot="close" variant="secondary">
       Cancel
     </Button>
-    <Button type="submit" slot="close">
+    <Button type="submit" >
       Save
     </Button>
   </Modal.Footer>

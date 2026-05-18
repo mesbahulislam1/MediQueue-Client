@@ -4,8 +4,9 @@ import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
 
-const TutorsPage =  async() => {
-  const tutors = await TutorsInfo()
+const TutorsPage =  async({params}) => {
+  const {id} = await params;
+  const tutors = await TutorsInfo(id)
  
   
   

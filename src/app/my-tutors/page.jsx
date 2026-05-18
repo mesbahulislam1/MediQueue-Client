@@ -1,3 +1,4 @@
+import { TutorsDelete } from "@/components/TutorsDelete";
 import { UpdateTutorsModal } from "@/components/UpdateTutorsModal";
 import { TutorsInfo } from "@/lib/data";
 import { Table } from "@heroui/react";
@@ -49,13 +50,7 @@ const MyTutorPage = async () => {
                     <Table.Cell>
                       <div className="flex gap-2">
                         <UpdateTutorsModal tutor={tutor}></UpdateTutorsModal>
-
-                        <button
-                          className="px-3 py-1 text-sm bg-red-500 text-white rounded hover:bg-red-600"
-                          
-                        >
-                          Delete
-                        </button>
+                        <TutorsDelete tutor={tutor}></TutorsDelete>
                       </div>
                     </Table.Cell>
                   </Table.Row>

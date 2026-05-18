@@ -1,22 +1,34 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function AddTutorPage() {
+  const router = useRouter()
   const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
 
     const formData = new FormData(e.currentTarget);
     const TutorData = Object.fromEntries(formData.entries());
-    console.log(TutorData);
 
-    // setLoading(true);
-    // setTimeout(() => {
-    //   setLoading(false);
-    //   alert("Tutor added successfully 🎉");
-    // }, 1500);
+    const res = await fetch(`http://localhost:8000/tutors`, {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(TutorData),
+    });
+
+    const data = await res.json();
+
+    if (data) {
+      router.push("/my-tutors");
+    }
+
+    setLoading(false);
   };
 
   return (
