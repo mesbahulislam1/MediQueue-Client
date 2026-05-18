@@ -1,6 +1,8 @@
-
+import BookingForm from "@/components/BookingForm";
+import { auth } from "@/lib/auth";
 import { tutorsOne } from "@/lib/data";
 import { FieldError, Input, Label, TextField } from "@heroui/react";
+import { headers } from "next/headers";
 import React from "react";
 import { FaCheck } from "react-icons/fa";
 import { FaAsterisk } from "react-icons/fa6";
@@ -8,7 +10,15 @@ import { FaAsterisk } from "react-icons/fa6";
 const BookingDetails = async({params}) => {
   const {id} = await params;
    const tutorDetails =await tutorsOne(id)
-   console.log(tutorDetails)
+
+
+     const session = await auth.api.getSession({
+      headers: await headers(),
+     })
+     const user = session?.user || null;
+     
+     
+
   return (
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
       {/* Booking Form */}
@@ -19,7 +29,7 @@ const BookingDetails = async({params}) => {
           Please fill in your details to book a session with this tutor.
         </div>
 
-        <form className="space-y-6">
+        {/* <form onSubmit={bookingForm} className="space-y-6">
           <div className="grid md:grid-cols-2 gap-5">
             <TextField isRequired name="name" type="text">
               <Label className="text-[16px] font-bold">Student Name</Label>
@@ -61,9 +71,9 @@ const BookingDetails = async({params}) => {
               <Label className="text-[16px] font-bold">
                 Student Email (auto)
               </Label>
-              <Input
+              <Input value={user?.email} disabled
                 placeholder="Enter your name"
-                className={" border border-black/20 py-4 rounded-[9px] disabled:opacity-100 disabled:font-bold disabled:text-[#4F545F]"}
+                className={"border border-black/20 disabled:opacity-100 disabled:font-bold disabled:text-[#4F545F] py-4 rounded-[9px]"}
               />
               <FieldError />
             </TextField>
@@ -72,7 +82,7 @@ const BookingDetails = async({params}) => {
               <Label className="text-[16px] font-bold">
                 Book Status (Auto)
               </Label>
-              <Input
+              <Input value={'Booked'} disabled
                 placeholder="Enter your name"
                 className={" border border-black/20 py-4 rounded-[9px] disabled:opacity-100 disabled:font-bold disabled:text-[#4F545F]"}
               />
@@ -94,10 +104,12 @@ const BookingDetails = async({params}) => {
             After successful booking, one slot will be deducted automatically.
           </div>
 
-          <button className="w-full cursor-pointer py-4 rounded-2xl bg-gradient-to-r from-indigo-600 to-violet-600 text-white text-lg font-semibold">
+          <button type="submit" className="w-full cursor-pointer py-4 rounded-2xl bg-gradient-to-r from-indigo-600 to-violet-600 text-white text-lg font-semibold">
             Confirm Booking
           </button>
-        </form>
+        </form> */}
+
+        <BookingForm tutorDetails={tutorDetails} user={user}></BookingForm>
       </div>
 
       {/* Sidebar */}
@@ -112,7 +124,7 @@ const BookingDetails = async({params}) => {
               </p>
 
               <h4 className="text-3xl font-bold text-green-600 mt-2">
-                5 / 5 Slots Available
+                {tutorDetails?.totalSlots} Slots Available
               </h4>
 
               <p className="text-sm text-gray-500 mt-2">
@@ -124,7 +136,7 @@ const BookingDetails = async({params}) => {
               <p className="font-semibold text-gray-700">Session Start Date</p>
 
               <h4 className="text-2xl font-bold text-orange-500 mt-2">
-                25 May 2026
+                {tutorDetails?.startDate}
               </h4>
 
               <p className="text-sm text-gray-500 mt-2">

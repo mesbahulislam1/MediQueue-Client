@@ -60,7 +60,7 @@ export default async function TutorDetailsPage({params}) {
 
             <div className="absolute bottom-0 left-0 w-full bg-black/55 text-white p-6">
               <h1 className="text-4xl font-bold">{tutor.tutorName}</h1>
-              <p className="mt-2 text-lg">Web Development Instructor</p>
+              <p className="mt-2 text-lg">{tutorDetails?.subject}</p>
 
               <div className="grid grid-cols-4 gap-4 mt-8 text-center">
                 <div>
@@ -79,7 +79,7 @@ export default async function TutorDetailsPage({params}) {
                 </div>
 
                 <div>
-                  <p className="text-2xl font-bold">৳800</p>
+                  <p className="text-2xl font-bold">${tutorDetails?.hourlyFee}</p>
                   <span className="text-sm text-gray-200">Per Session</span>
                 </div>
               </div>

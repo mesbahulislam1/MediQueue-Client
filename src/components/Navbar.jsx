@@ -6,6 +6,7 @@ import { BookOpen, Menu, X, User, LogOut, LayoutDashboard } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@heroui/react";
 import Image from "next/image";
+import { authClient } from "@/lib/auth-client";
 
 export function MainNavbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -16,6 +17,9 @@ export function MainNavbar() {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  const {data: session}=authClient.useSession()
+  const user = session?.user;
 
   return (
     <nav className={`sticky top-0 w-full z-50 transition-all duration-300 ${scrolled ? "bg-white/70 backdrop-blur-md shadow-sm py-2" : "bg-slate-50 py-4"
@@ -41,7 +45,8 @@ export function MainNavbar() {
 
           <div className="hidden md:flex items-center gap-4">
 
-            <>
+            {
+              !user ? <>
               <Link href="/login" className="font-medium text-slate-700 hover:text-blue-600 transition-colors">Login</Link>
               <Link href="/register">
 
@@ -49,19 +54,17 @@ export function MainNavbar() {
                   Register
                 </Button>
               </Link>
-            </>
-
-            <div className="relative group">
+            </>:<div className="relative group">
               <button className="flex items-center gap-3 p-1 rounded-full hover:bg-muted transition-colors border border-transparent hover:border-border">
                 <Image
                   width={40}
                   height={40}
-                  src="https://images.unsplash.com/photo-1502685104226-ee32379fefbe?q=80&w=400"
+                  src={`${user?.image || 'https://images.unsplash.com/photo-1502685104226-ee32379fefbe?q=80&w=400'}`}
                   alt="avatar"
                   className="w-10 h-10 rounded-full object-cover ring-2 ring-blue-600/10"
                 />
                 <div className="text-left hidden lg:block">
-                  <p className="text-sm font-bold truncate max-w-25">Nazmus Sakib</p>
+                  <p className="text-sm font-bold truncate max-w-25">{user?.name || 'User Name'}</p>
                   <p className="text-[10px] text-slate-500">Student</p>
                 </div>
               </button>
@@ -75,6 +78,10 @@ export function MainNavbar() {
                 </button>
               </div>
             </div>
+            }
+            
+
+            
 
           </div>
 
