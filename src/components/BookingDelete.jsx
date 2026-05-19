@@ -3,26 +3,25 @@
 import { AlertDialog, Button } from "@heroui/react";
 import { toast } from "react-toastify";
 
-export function TutorsDelete({ tutor }) {
+export function BookingDelete({ booking }) {
+    
   const deleteHandel = async () => {
-    const res = await fetch(`http://localhost:8000/tutors/${tutor._id}`, {
+    const res = await fetch(`http://localhost:8000/booking/${booking?._id}`, {
       method: "DELETE",
       headers: {
         "content-type": "application/json",
       },
     });
-    const data = await res.json();
-
+    const data = await res.json()
+    toast.success('Delete Succesfull')
     if (data) {
-      window.location.reload();
-      toast.success("Delete Succesfull");
+        window.location.reload()
     }
   };
+
   return (
     <AlertDialog>
-      <Button className="px-3 py-1 text-sm bg-red-500 text-white rounded hover:bg-red-600">
-        Delete
-      </Button>
+      <Button variant="danger">Cancel </Button>
       <AlertDialog.Backdrop>
         <AlertDialog.Container>
           <AlertDialog.Dialog className="sm:max-w-[400px]">
@@ -30,13 +29,14 @@ export function TutorsDelete({ tutor }) {
             <AlertDialog.Header>
               <AlertDialog.Icon status="danger" />
               <AlertDialog.Heading>
-                Delete Tutors permanently?
+                Delete booking permanently?
               </AlertDialog.Heading>
             </AlertDialog.Header>
             <AlertDialog.Body>
               <p>
-                This will permanently delete <strong>{tutor.tutorName}</strong>{" "}
-                and all of its data. This action cannot be undone.
+                This will permanently delete the booking for{" "}
+                <strong>{booking?.studentName}</strong>. All related booking
+                data will be removed. This action cannot be undone.
               </p>
             </AlertDialog.Body>
             <AlertDialog.Footer>

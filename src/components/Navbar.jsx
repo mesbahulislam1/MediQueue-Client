@@ -7,6 +7,7 @@ import Link from "next/link";
 import { Button } from "@heroui/react";
 import Image from "next/image";
 import { authClient } from "@/lib/auth-client";
+import { toast } from "react-toastify";
 
 export function MainNavbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -21,6 +22,11 @@ export function MainNavbar() {
   const {data: session}=authClient.useSession()
   const user = session?.user;
 
+  const handelSignOut = async()=>{
+    await authClient.signOut()
+    window.location.reload()
+  }
+
   return (
     <nav className={`sticky top-0 w-full z-50 transition-all duration-300 ${scrolled ? "bg-white/70 backdrop-blur-md shadow-sm py-2" : "bg-slate-50 py-4"
       }`}>
@@ -28,7 +34,7 @@ export function MainNavbar() {
         <div className="flex justify-between h-16 items-center">
           <div className="flex items-center">
             <Link href="/" className="flex items-center gap-1 group">
-              <Image src={'/logo.png'} width={200} height={200} alt="Logo" className="h-[70px] w-[70px]"></Image>
+              <Image src={'/logo-2.png'} width={200} height={200} alt="Logo" className="h-[70px] w-[70px]"></Image>
               <span className="font-extrabold text-[22px] tracking-tight text-slate-900">
                 MediQueue
               </span>
@@ -54,8 +60,8 @@ export function MainNavbar() {
                   Register
                 </Button>
               </Link>
-            </>:<div className="relative group">
-              <button className="flex items-center gap-3 p-1 rounded-full hover:bg-muted transition-colors border border-transparent hover:border-border">
+            </>:<div className="relative group ">
+              <button className="flex group cursor-pointer items-center gap-3 p-1 rounded-full hover:bg-muted transition-colors border border-transparent hover:border-border">
                 <Image
                   width={40}
                   height={40}
@@ -73,7 +79,7 @@ export function MainNavbar() {
                   <p className="font-bold text-sm">Welcome back!</p>
                   <p className="text-xs truncate text-slate-500">sakib@gmail.com</p>
                 </div>
-                <button className="px-4 py-2 text-sm text-red-500 hover:bg-red-50 flex items-center gap-3 transition-colors text-left">
+                <button onClick={handelSignOut} className="px-4 cursor-pointer py-2 text-sm text-red-500 hover:bg-red-50 flex items-center gap-3 transition-colors text-left">
                   <LogOut className="w-4 h-4" /> Log Out
                 </button>
               </div>

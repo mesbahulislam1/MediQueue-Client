@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 
 import React from "react";
 import { FaCheck } from "react-icons/fa";
+import { toast } from "react-toastify";
 
 const BookingForm = ({ tutorDetails, user }) => {
   
@@ -121,9 +122,9 @@ const BookingForm = ({ tutorDetails, user }) => {
         After successful booking, one slot will be deducted automatically.
       </div>
 
-      <button
+      <button onClick={() => toast.success('Booking Succesfull')}
         disabled={tutorDetails?.totalSlots === 0}
-        className="w-full py-4 rounded-2xl bg-gradient-to-r from-indigo-600 to-violet-600 text-white"
+        className="w-full cursor-pointer py-4 rounded-2xl bg-gradient-to-r from-indigo-600 to-violet-600 text-white"
       >
        Confirm Booking
       </button>

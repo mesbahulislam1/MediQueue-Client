@@ -8,6 +8,7 @@ import { Mail, Lock, ArrowRight } from "lucide-react";
 
 import Image from "next/image";
 import { authClient } from "@/lib/auth-client";
+import { redirect } from "next/navigation";
 
 const LoginPage = () => {
   const handelLogin =async(e)=>{
@@ -19,8 +20,15 @@ const LoginPage = () => {
       email: userLoing.email,
       password: userLoing.password,
     })
-    console.log({data, error})
+    if (data) {
+      redirect('/tutors')
+    }
   }
+  const signInWithGoogle = async () => {
+  const data = await authClient.signIn.social({
+    provider: "google",
+  });
+};
   return (
     <div className="min-h-[80vh] flex flex-col bg-slate-50">
       <div className="flex items-center justify-center p-4">
@@ -38,8 +46,8 @@ const LoginPage = () => {
               </p>
             </div>
 
-            <div className="space-y-4">
-              <Button
+            <div  className="space-y-4">
+              <Button onClick={signInWithGoogle}
                 variant="bordered"
                 className="w-full h-12 font-bold rounded-2xl border-slate-200 hover:bg-slate-50 transition-colors gap-3"
               >

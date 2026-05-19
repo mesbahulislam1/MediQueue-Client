@@ -3,6 +3,7 @@
 import { Envelope } from "@gravity-ui/icons";
 import { Button, Input, Label, Modal, Surface, TextField } from "@heroui/react";
 import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
 
 export function UpdateTutorsModal({tutor}) {
   const router = useRouter()
@@ -19,6 +20,7 @@ export function UpdateTutorsModal({tutor}) {
     })
 
     const data = await res.json()
+    toast.success('Update Succesfull')
     if (data) {
       router.push('/my-tutors')
     }
