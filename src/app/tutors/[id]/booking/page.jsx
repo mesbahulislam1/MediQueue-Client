@@ -1,6 +1,5 @@
 import BookingForm from "@/components/BookingForm";
 import { auth } from "@/lib/auth";
-import { tutorsOne } from "@/lib/data";
 import { FieldError, Input, Label, TextField } from "@heroui/react";
 import { headers } from "next/headers";
 import React from "react";
@@ -9,7 +8,10 @@ import { FaAsterisk } from "react-icons/fa6";
 
 const BookingDetails = async({params}) => {
   const {id} = await params;
-   const tutorDetails =await tutorsOne(id)
+
+  const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URI}/tutors/${id}`);
+    const tutorDetails  = await res.json()
+  
 
 
      const session = await auth.api.getSession({

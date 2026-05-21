@@ -9,13 +9,23 @@ import {
   Star,
   Users,
 } from "lucide-react";
-import { tutorsOne } from "@/lib/data";
 import { FieldError, Input, TextField } from "@heroui/react";
 import Link from "next/link";
+import { auth } from "@/lib/auth";
+import { headers } from "next/headers";
 
 export default async function TutorDetailsPage({params}) {
     const {id} =await params;
-    const tutorDetails =await tutorsOne(id)
+    const {token} = await auth.api.getToken({
+      headers: await headers()
+    })
+    
+    const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URI}/tutors/${id}`, {
+        headers:{
+            authorization: `Bearer ${token}`,
+        }
+    });
+    const  tutorDetails= await res.json()
     
 
   const tutor = {
@@ -38,13 +48,19 @@ export default async function TutorDetailsPage({params}) {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 bg-white rounded-3xl p-6 shadow-sm">
           {/* Left */}
           <div className="relative rounded-3xl overflow-hidden">
-            <Image
-              src={tutorDetails?.photo}
-              alt="Tutor"
-              width={700}
-              height={700}
-              className="w-full h-full object-cover"
-            />
+            {tutorDetails?.photo ? (
+  <Image
+    src={tutorDetails?.photo}
+    alt="Tutor"
+    width={700}
+    height={700}
+    className="w-full h-full object-cover"
+  />
+) : (
+  <div className="w-full h-[400px] flex items-center justify-center bg-gray-200">
+    No Image Available
+  </div>
+)}
 
             <div className="absolute top-5 left-5 bg-indigo-600 text-white px-4 py-2 rounded-xl text-sm font-medium">
               Verified Tutor

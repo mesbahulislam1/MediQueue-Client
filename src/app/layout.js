@@ -3,7 +3,8 @@ import "./globals.css";
 import Footer from "@/components/Footer";
 import NavbarComponent, { MainNavbar } from "@/components/Navbar";
 import { ToastContainer } from "react-toastify";
-
+import dns from "node:dns";
+dns.setServers(['8.8.8.8', '8.8.4.4'])
 
 const geistSans = Geist({
   variable: "--font-geist-sans",

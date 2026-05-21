@@ -14,7 +14,7 @@ export default function AddTutorPage() {
     const formData = new FormData(e.currentTarget);
     const TutorData = Object.fromEntries(formData.entries());
 
-    const res = await fetch(`http://localhost:8000/tutors`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URI}/tutors`, {
       method: "POST",
       headers: {
         "content-type": "application/json",

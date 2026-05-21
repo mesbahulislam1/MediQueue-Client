@@ -1,12 +1,15 @@
 import TutorCard from '@/components/TutorCard'
-import { TutorsInfo } from '@/lib/data'
 import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
 
 const TutorsPage =  async({params}) => {
   const {id} = await params;
-  const tutors = await TutorsInfo(id)
+
+  const res =await fetch(`${process.env.NEXT_PUBLIC_SERVER_URI}/tutors`)
+ const tutors  = await res.json();
+
+  
  
   
   

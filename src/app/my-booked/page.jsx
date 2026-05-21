@@ -1,11 +1,12 @@
 import { BookingDelete } from "@/components/BookingDelete";
-import { getBookingData } from "@/lib/data";
 import { Button } from "@heroui/react";
 import Link from "next/link";
 import React from "react";
 
 const MyBookingPage = async () => {
-  const bookingData = await getBookingData();
+  const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URI}/booking`);
+    const bookingData =await res.json()
+  
 
   return (
     <>

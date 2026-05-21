@@ -1,4 +1,5 @@
 "use client";
+import { authClient } from "@/lib/auth-client";
 import { FieldError, Input, Label, TextField } from "@heroui/react";
 import { redirect } from "next/navigation";
 
@@ -20,10 +21,13 @@ const BookingForm = ({ tutorDetails, user }) => {
       tutorName: tutorDetails?.tutorName,
       bookStatus: "Booked",
     };
-    const res = await fetch('http://localhost:8000/booking', {
+    const {data: tokenData}= await authClient.token()
+
+    const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URI}/booking`, {
         method: "POST",
         headers: {
             'content-type':'application/json',
+            authorization: `Bearer ${tokenData?.token}`,
         },
         body: JSON.stringify(bookingData)
     })

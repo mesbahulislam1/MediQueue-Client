@@ -1,11 +1,12 @@
 import { TutorsDelete } from "@/components/TutorsDelete";
 import { UpdateTutorsModal } from "@/components/UpdateTutorsModal";
-import { TutorsInfo } from "@/lib/data";
 import { Table } from "@heroui/react";
 import React from "react";
 
 const MyTutorPage = async () => {
-  const tutors = await TutorsInfo();
+   
+  const res =await fetch(`${process.env.NEXT_PUBLIC_SERVER_URI}/tutors`)
+  const tutors = await res.json();
 
   return (
     <div className="container mx-auto my-9">
